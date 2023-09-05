@@ -9,8 +9,8 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import Typography from "@mui/material/Typography";
-import { FormControl, MenuItem, Paper, Select } from "@mui/material";
-import { deepOrange, pink } from "@mui/material/colors";
+import { Alert, FormControl, MenuItem, Paper, Select } from "@mui/material";
+import { deepOrange, indigo, pink } from "@mui/material/colors";
 import InputLabel from "@mui/material/InputLabel";
 import authService from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
@@ -77,7 +77,7 @@ const Signup = () => {
               flexDirection: "column",
               alignItems: "center",
             }}>
-            <Avatar sx={{ m: 1, bgcolor: pink[500] }}>
+            <Avatar sx={{ m: 1, bgcolor: indigo[900] }}>
               <HowToRegIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
@@ -127,7 +127,7 @@ const Signup = () => {
                       onChange={(e) => handleSignupForm('profile', e.target.value)}
                       style={{ textAlign: "left" }}>
                       
-                      <MenuItem value={"Director"}>Docente</MenuItem>
+                      <MenuItem value={"Docente"}>Docente</MenuItem>
                       <MenuItem value={"Director"}>Director</MenuItem>
                       <MenuItem value={"Subdirector"}>Subdirector</MenuItem>
                       <MenuItem value={"Coordinador"}>Coordinador</MenuItem>
@@ -173,7 +173,7 @@ const Signup = () => {
                 Sign Up
               </Button>
 
-              { errorMessage && <p className="error-message">{errorMessage}</p> }
+              { errorMessage && <Alert severity="error">{errorMessage}</Alert> }
 
               <Grid container justifyContent="flex-end">
                 <Grid item>

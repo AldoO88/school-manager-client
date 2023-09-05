@@ -7,8 +7,12 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 import { deepOrange, indigo } from '@mui/material/colors';
+import { AuthContext } from '../context/auth.context';
+import { useContext } from 'react';
 
 const Navbar = () => {
+
+    const { isLoggedIn, user, logout } = useContext(AuthContext)
     
     return(
         <Box sx={{ flexGrow: 1 }}>
@@ -20,12 +24,16 @@ const Navbar = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             
           </Typography>
-          <Link to='/signup'>
+          {
+            !isLoggedIn && (
+                <>
+                <Link to='/signup'>
             <Button 
                 sx={{
                   bgcolor: indigo[900],
                   ":hover": { bgcolor: deepOrange[900] },
                   color: 'white',
+                  margin:1
                     
                 }}>Signup</Button>
           </Link>
@@ -39,6 +47,26 @@ const Navbar = () => {
                     
                 }}>Login</Button>
           </Link>
+                </>
+            )
+          }
+        {
+            isLoggedIn && (
+                <>
+                <Button 
+                sx={{
+                  bgcolor: indigo[900],
+                  ":hover": { bgcolor: deepOrange[900] },
+                  color: 'white',
+                    
+                }}
+                onClick={(logout)}
+                >Logout</Button>
+                </>
+            )
+        }
+          
+          
         </Toolbar>
       </AppBar>
     </Box>
