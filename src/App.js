@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
+import IsAnonymous from './components/IsAnonymous';
 
 function App() {
   return (
@@ -12,8 +13,8 @@ function App() {
       <Navbar/>
       <Routes>
         <Route path='/' element={<Home/>}/>
-        <Route path='/signup' element={<Signup/>} />
-        <Route path='/login' element={<Login/>} />
+        <Route path='/signup' element={<IsAnonymous><Signup/></IsAnonymous>} />
+        <Route path='/login' element={<IsAnonymous><Login/></IsAnonymous>} />
       </Routes>
     </div>
   );
