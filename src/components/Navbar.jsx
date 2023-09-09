@@ -6,17 +6,17 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
-import { deepOrange, indigo } from '@mui/material/colors';
+import { amber, cyan, deepOrange, deepPurple, grey, indigo } from '@mui/material/colors';
 import { AuthContext } from '../context/auth.context';
 import { useContext } from 'react';
 
 const Navbar = () => {
 
-    const { isLoggedIn, user, logout } = useContext(AuthContext)
+    const { isLoggedIn, logout } = useContext(AuthContext)
     
     return(
         <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={ {bgcolor: deepOrange[500]}}>
+      <AppBar position="static" sx={ {bgcolor: cyan[700]}}>
         <Toolbar>
         <Link to='/'>
             <Button color="inherit">Home</Button>
@@ -30,8 +30,8 @@ const Navbar = () => {
                 <Link to='/signup'>
             <Button 
                 sx={{
-                  bgcolor: indigo[900],
-                  ":hover": { bgcolor: deepOrange[900] },
+                  bgcolor: deepPurple[500],
+                  ":hover": { bgcolor: amber[200], color: grey[900] },
                   color: 'white',
                   margin:1
                     
@@ -41,8 +41,8 @@ const Navbar = () => {
           <Link to='/login'>
             <Button 
                 sx={{
-                  bgcolor: indigo[900],
-                  ":hover": { bgcolor: deepOrange[900] },
+                  bgcolor: deepPurple[500],
+                  ":hover": { bgcolor: amber[200], color: grey[900] },
                   color: 'white',
                     
                 }}>Login</Button>
@@ -55,8 +55,8 @@ const Navbar = () => {
                 <>
                 <Button 
                 sx={{
-                  bgcolor: indigo[900],
-                  ":hover": { bgcolor: deepOrange[900] },
+                  bgcolor: deepPurple[500],
+                  ":hover": { bgcolor: amber[200], color: grey[900] },
                   color: 'white',
                     
                 }}
