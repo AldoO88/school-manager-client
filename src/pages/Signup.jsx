@@ -10,7 +10,7 @@ import Box from "@mui/material/Box";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import Typography from "@mui/material/Typography";
 import { Alert, FormControl, MenuItem, Paper, Select } from "@mui/material";
-import { deepOrange, indigo, pink } from "@mui/material/colors";
+import { amber, deepOrange, deepPurple, grey, indigo, pink } from "@mui/material/colors";
 import InputLabel from "@mui/material/InputLabel";
 import authService from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
@@ -167,8 +167,9 @@ const Signup = () => {
                 sx={{
                   mt: 3,
                   mb: 2,
-                  bgcolor: deepOrange[500],
-                  ":hover": { bgcolor: deepOrange[700] },
+                  bgcolor: deepPurple[500],
+                  ":hover": { bgcolor: amber[200], color: grey[900] },
+                  color: 'white',
                 }}>
                 Sign Up
               </Button>

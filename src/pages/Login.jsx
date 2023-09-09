@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LoginIcon from '@mui/icons-material/Login';
 import Typography from '@mui/material/Typography';
-import { deepOrange, indigo } from '@mui/material/colors';
+import { amber, deepOrange, deepPurple, grey, indigo } from '@mui/material/colors';
 import authService from '../services/auth.service';
 import { AuthContext } from '../context/auth.context';
 import { useNavigate } from 'react-router-dom';
@@ -106,7 +106,9 @@ const Login = () =>{
                         type="submit"
                         fullWidth
                         variant="contained"
-                        sx={{ mt: 3, mb: 2, bgcolor: deepOrange[500], ":hover": { bgcolor: deepOrange[700] }}}
+                        sx={{ mt: 3, mb: 2, bgcolor: deepPurple[500],
+                  ":hover": { bgcolor: amber[200], color: grey[900] },
+                  color: 'white',}}
                       >
                         Sign In
                       </Button>
