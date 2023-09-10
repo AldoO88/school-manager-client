@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LoginIcon from '@mui/icons-material/Login';
 import Typography from '@mui/material/Typography';
-import { amber, deepOrange, deepPurple, grey, indigo } from '@mui/material/colors';
+import { amber, deepPurple, grey, indigo } from '@mui/material/colors';
 import authService from '../services/auth.service';
 import { AuthContext } from '../context/auth.context';
 import { useNavigate } from 'react-router-dom';

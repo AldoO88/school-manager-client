@@ -5,13 +5,46 @@ import { useEffect } from 'react';
 import teacherService from '../services/teachers.service';
 import TableNoRows from '../components/TableNoRows';
 import DataTable from '../components/DataTable';
+import BrowserUpdatedIcon from '@mui/icons-material/BrowserUpdated';
+import { Button } from '@mui/material';
+import { GridDeleteIcon } from '@mui/x-data-grid';
 
 
 const columns = [
   { field: "name", headerName: "First name", width: 230 },
   { field: "lastName", headerName: "Last name", width: 230 },
   { field: "profile", headerName: "Profile", width: 190},
-  { field: "subjects", headerName: "Subjects", width: 190}
+  { field: "subjects", headerName: "Subjects", width: 190},
+  { field: 'update',
+        renderCell: (cellValues) => {
+            return(
+                <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<BrowserUpdatedIcon />}
+                >
+                    Update
+                </Button>
+            )
+        },
+        headerName: ' ', 
+        width: 120
+    },
+    { field: 'delete',
+        renderCell: (cellValues) => {
+            return(
+                <Button
+                    variant="contained"
+                    color="error"
+                    startIcon={<GridDeleteIcon />}
+                >
+                    Delete
+                </Button>
+            )
+        },
+        headerName: ' ', 
+        width: 120
+    }
 ];
 
 

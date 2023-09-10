@@ -2,6 +2,9 @@ import { useEffect, useState } from "react"
 import subjectService from "../services/subjects.service"
 import TableNoRows from "../components/TableNoRows"
 import DataTable from "../components/DataTable"
+import { Button } from "@mui/material";
+import { GridDeleteIcon } from "@mui/x-data-grid";
+import BrowserUpdatedIcon from '@mui/icons-material/BrowserUpdated';
 
 const columns = [
     { field: 'name', headerName: 'Name', width: 180 },
@@ -10,6 +13,36 @@ const columns = [
     { field: 'credits', headerName: 'credits', width: 120 },
     { field: 'hoursWeek', headerName: 'Hours Week', width: 90 },
     { field: 'maxHoursDay', headerName: 'Hours Day', width: 90 },
+    { field: 'update',
+        renderCell: (cellValues) => {
+            return(
+                <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<BrowserUpdatedIcon />}
+                >
+                    Update
+                </Button>
+            )
+        },
+        headerName: ' ', 
+        width: 120
+    },
+    { field: 'delete',
+        renderCell: (cellValues) => {
+            return(
+                <Button
+                    variant="contained"
+                    color="error"
+                    startIcon={<GridDeleteIcon />}
+                >
+                    Delete
+                </Button>
+            )
+        },
+        headerName: ' ', 
+        width: 120
+    }
 
     
   ];
