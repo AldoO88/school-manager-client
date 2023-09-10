@@ -10,7 +10,7 @@ import Box from "@mui/material/Box";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import Typography from "@mui/material/Typography";
 import { Alert, FormControl, MenuItem, Paper, Select } from "@mui/material";
-import { amber, deepOrange, deepPurple, grey, indigo, pink } from "@mui/material/colors";
+import { amber, deepPurple, grey, indigo } from "@mui/material/colors";
 import InputLabel from "@mui/material/InputLabel";
 import authService from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
