@@ -15,7 +15,6 @@ import Groups from './pages/Groups';
 import Students from './pages/Students';
 import Subjects from './pages/Subjects';
 
-
 function App() {
   const { isLoggedIn } = useContext(AuthContext)
   return (
