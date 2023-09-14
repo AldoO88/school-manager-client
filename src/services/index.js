@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-let baseUrl = process.env.ENV === 'production'
-    ? process.env.SERVER_URL
+let baseUrl = process.env.REACT_APP_ENV === 'production'
+    ? process.env.REACT_APP_SERVER_URL
     : 'http://localhost:5005';
 
 
