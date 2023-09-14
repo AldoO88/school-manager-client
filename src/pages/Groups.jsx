@@ -64,8 +64,8 @@ const Groups = () => {
     const [open, setOpen] = useState(false);
     const [ addGroupForm, setAddGroupForm ] = useState(initAddGroupForm)
     const [ errorMessage, setErrorMessage ] = useState(undefined);
-    const [ message, setMessage ] = useState(undefined);
-    const [ idSubject, setIdSubject ] = useState(null)
+    //const [ message, setMessage ] = useState(undefined);
+    //const [ idSubject, setIdSubject ] = useState(null)
 
     const getAllGroup = async () => {
         try {
@@ -99,14 +99,14 @@ const Groups = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-        if(!idSubject){
+      
             await groupService.createGroup(addGroupForm);
             setAddGroupForm(initAddGroupForm);
             getAllGroup();
             setOpen(false);
             //setMessage(response.data.message)
             
-        }
+        
     } catch (error) {
         setErrorMessage(error.response.data.message);
     }
@@ -196,7 +196,6 @@ const Groups = () => {
               </Grid>
             </DialogContent>
             {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
-            {message && <Alert severity="error">{message}</Alert>}
             <DialogActions>
               <Button
                 variant="contained"

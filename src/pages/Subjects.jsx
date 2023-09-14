@@ -68,8 +68,8 @@ const Subjects = () => {
     const [open, setOpen] = useState(false);
     const [ addSubjectForm, setAddSubjectForm ] = useState(initAddStudentpForm)
     const [errorMessage, setErrorMessage] = useState(undefined);
-    const [message, setMessage ] = useState(undefined);
-    const [ idSubject, setIdSubject ] = useState(null)
+    //const [message, setMessage ] = useState(undefined);
+    //const [ idSubject, setIdSubject ] = useState(null)
 
     const getAllSubject = async () => {
         try {
@@ -88,13 +88,13 @@ const Subjects = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            if(!idSubject){
+           
                 await subjectService.createSubjects(addSubjectForm);
                 setAddSubjectForm(initAddStudentpForm);
                 getAllSubject();
                 //setMessage(response.data.message)
                 
-            }
+            
         } catch (error) {
             setErrorMessage(error.response.data.message);
         }
@@ -258,7 +258,7 @@ const Subjects = () => {
               </Grid>
             </DialogContent>
             {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
-            {message && <Alert severity="error">{message}</Alert>}
+            
             <DialogActions>
               <Button
                 variant="contained"

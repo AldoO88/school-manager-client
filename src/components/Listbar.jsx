@@ -15,7 +15,7 @@ import SchoolIcon from '@mui/icons-material/School';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { Avatar, ListItemAvatar } from '@mui/material';
-import { amber, blue, deepPurple, indigo, pink } from '@mui/material/colors';
+import { amber, deepPurple, pink } from '@mui/material/colors';
 import { AuthContext } from '../context/auth.context';
 import { Link } from 'react-router-dom';
 
