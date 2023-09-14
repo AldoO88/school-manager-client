@@ -9,8 +9,9 @@ const DataTable = (props) => {
     const { dataTable, columnsTable } = props;
   return (
 
-    <div style={{ height: 400, width: '100%' }}>
+    <div style={{ height: 400}}>
         <DataGrid
+        key={dataTable._id}
         rows={dataTable}
         columns={columnsTable}
         getRowId={(dataTable) => dataTable._id}
