@@ -130,6 +130,7 @@ const Teachers = () =>{
 
 const closeDialogClick = (idTeacher) => {
   setOpenDialog(false);
+  setIdTeacher(null)
   
 } 
 

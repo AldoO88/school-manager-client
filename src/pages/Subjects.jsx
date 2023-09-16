@@ -104,6 +104,7 @@ const Subjects = () => {
                 setAddSubjectForm(initAddStudentpForm);
                 getAllSubject();
                 handleClose();
+                setIdSubject(null);
             }   //setMessage(response.data.message)
         } catch (error) {
             setErrorMessage(error.response.data.message);
@@ -117,6 +118,7 @@ const Subjects = () => {
   const handleClose = () => {
     setOpen(false);
     setAddSubjectForm(initAddStudentpForm);
+    setIdSubject(null);
 
   };
 
@@ -142,6 +144,7 @@ const Subjects = () => {
 }
 const closeDialogClick = () => {
     setOpenDialog(false);
+    setIdSubject(null);
 }
 
 const deleteSubject = async () => {

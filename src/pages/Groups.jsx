@@ -93,6 +93,7 @@ const Groups = () => {
   const handleClose = () => {
     setOpen(false);
     setAddGroupForm(initAddGroupForm);
+    setIdGroup(null)
 
   };
 
@@ -116,6 +117,7 @@ const Groups = () => {
             setAddGroupForm(initAddGroupForm);
             getAllGroup();
             setOpen(false);
+            setIdGroup(null);
         }
             
             
@@ -145,6 +147,7 @@ const openDialogClick = (studentId) => {
 
 const closeDialogClick = (studentId) => {
     setOpenDialog(false);
+    setIdGroup(null)
 }
 
 const deleteGroup = async () => {

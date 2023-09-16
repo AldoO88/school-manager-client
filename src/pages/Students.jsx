@@ -153,6 +153,7 @@ const Students = () => {
     setDate(dayjs(''));
     setErrorMessage(undefined);
     setOpenDialog(false);
+    setIdStudentSelected(null);
   };
 
   const handleAddStudentForm = (nameField, value) => {
@@ -186,6 +187,7 @@ const Students = () => {
             getAllStudent();
             setOpen(false);
             handleClose();
+            setIdStudentSelected(null);
         }
      
       
