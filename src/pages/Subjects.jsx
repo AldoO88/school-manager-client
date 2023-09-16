@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import subjectService from "../services/subjects.service"
 import TableNoRows from "../components/TableNoRows"
 import DataTable from "../components/DataTable"
-import { Alert, Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Fab, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { Alert, Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Fab, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import { GridDeleteIcon } from "@mui/x-data-grid";
 import BrowserUpdatedIcon from '@mui/icons-material/BrowserUpdated';
 import AddIcon from "@mui/icons-material/Add";
@@ -13,54 +13,13 @@ import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 const initAddStudentpForm = {
     name: "",
     description: "",
-    gender: "",
+    grade: "",
     credits:"",
     hoursWeek: "",
     maxHoursDay: "",
   };
 
-const columns = [
-    { field: 'name', headerName: 'Name', width: 180 },
-    { field: 'description', headerName: 'Description', width: 220 },
-    { field: 'grade', headerName: 'Grade', width: 90 },
-    { field: 'credits', headerName: 'credits', width: 120 },
-    { field: 'hoursWeek', headerName: 'Hours Week', width: 90 },
-    { field: 'maxHoursDay', headerName: 'Max Hours Day', width: 90 },
-    { field: 'update',
-        renderCell: (cellValues) => {
-            return(
-                <Button
-                    className='buttonTable'
-                    variant="contained"
-                    color="primary"
-                    startIcon={<BrowserUpdatedIcon />}
-                >
-                    Update
-                </Button>
-            )
-        },
-        headerName: ' ', 
-        width: 120
-    },
-    { field: 'delete',
-        renderCell: (cellValues) => {
-            return(
-                <Button
-                className='buttonTable'
-                    variant="contained"
-                    color="error"
-                    startIcon={<GridDeleteIcon />}
-                >
-                    Delete
-                </Button>
-            )
-        },
-        headerName: ' ', 
-        width: 120
-    }
 
-    
-  ];
 
 const Subjects = () => {
 
@@ -69,14 +28,60 @@ const Subjects = () => {
     const [ addSubjectForm, setAddSubjectForm ] = useState(initAddStudentpForm)
     const [errorMessage, setErrorMessage] = useState(undefined);
     //const [message, setMessage ] = useState(undefined);
-    //const [ idSubject, setIdSubject ] = useState(null)
+    const [ idSubject, setIdSubject ] = useState(null)
+    const [ openDialog, setOpenDialog ] = useState(false)
+
+    const columns = [
+        { field: 'name', headerName: 'Name', width: 180 },
+        { field: 'description', headerName: 'Description', width: 220 },
+        { field: 'grade', headerName: 'Grade', width: 90 },
+        { field: 'credits', headerName: 'credits', width: 120 },
+        { field: 'hoursWeek', headerName: 'Hours Week', width: 90 },
+        { field: 'maxHoursDay', headerName: 'Max Hours Day', width: 90 },
+        { field: 'update',
+            renderCell: (cellValues) => {
+                return(
+                    <Button
+                        className='buttonTable'
+                        variant="contained"
+                        color="primary"
+                        startIcon={<BrowserUpdatedIcon />}
+                        onClick={() => getOneSubject(cellValues.id)}
+                    >
+                        Update
+                    </Button>
+                )
+            },
+            headerName: ' ', 
+            width: 120
+        },
+        { field: 'delete',
+            renderCell: (cellValues) => {
+                return(
+                    <Button
+                    className='buttonTable'
+                        variant="contained"
+                        color="error"
+                        startIcon={<GridDeleteIcon />}
+                        onClick={() => openDialogClick(cellValues.id)}
+                    >
+                        Delete
+                    </Button>
+                )
+            },
+            headerName: ' ', 
+            width: 120
+        }
+    
+        
+      ];
 
     const getAllSubject = async () => {
         try {
           const response = await subjectService.getAllSubjects()
           setDataGroup(response.data)
         } catch (error) {
-          console.log(error)
+            setErrorMessage(error.response.data.message);
         }
     
     }
@@ -89,12 +94,17 @@ const Subjects = () => {
         event.preventDefault();
         try {
            
+            if(!idSubject){
                 await subjectService.createSubjects(addSubjectForm);
                 setAddSubjectForm(initAddStudentpForm);
                 getAllSubject();
-                //setMessage(response.data.message)
-                
-            
+                handleClose()
+            }else{
+                await subjectService.updateSubjects(idSubject, addSubjectForm);
+                setAddSubjectForm(initAddStudentpForm);
+                getAllSubject();
+                handleClose();
+            }   //setMessage(response.data.message)
         } catch (error) {
             setErrorMessage(error.response.data.message);
         }
@@ -113,7 +123,36 @@ const Subjects = () => {
   const handleAddSubjectForm = (nameField, value) => {
     setAddSubjectForm((prevState) => ({ ...prevState, [nameField]: value }));
 
+  } 
+
+  const getOneSubject = async(subjectId) => {
+    try {
+        setOpen(true);
+        const response = await subjectService.getOneSubject(subjectId)
+        setAddSubjectForm(response.data);
+        setIdSubject(subjectId);
+    } catch (error) {
+        setErrorMessage(error.response.data.message);
+    }
   }
+
+  const openDialogClick = (subjectId) => {
+    setOpenDialog(true);
+    setIdSubject(subjectId);
+}
+const closeDialogClick = () => {
+    setOpenDialog(false);
+}
+
+const deleteSubject = async () => {
+    try {
+        await subjectService.deleteSSubjects(idSubject)
+        getAllSubject()
+        closeDialogClick()
+    } catch (error) {
+        setErrorMessage(error.response.data.message)
+    }
+}
     return(
         <div style={{ width: "100%", margin:20}}>
         <h1>Subjects</h1>
@@ -290,6 +329,46 @@ const Subjects = () => {
             </DialogActions>
           </Box>
         </Dialog>
+
+        <Dialog
+        open={openDialog}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {'Are you sure you want to eliminate the subject?'}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+          <p>{`Se eliminara la materia`}</p>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button 
+          variant="contained"
+                sx={{
+                  mt: 1,
+                  mb: 2,
+                  bgcolor: red[500],
+                  ":hover": { bgcolor: amber[200], color: grey[900] },
+                  color: "white",
+                }}
+          onClick={closeDialogClick}>Cancel</Button>
+          <Button
+          variant="contained"
+                sx={{
+                  mt: 1,
+                  mb: 2,
+                  bgcolor: deepPurple[500],
+                  ":hover": { bgcolor: amber[200], color: grey[900] },
+                  color: "white",
+                }}
+           onClick={deleteSubject} autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
 
 
         </div>

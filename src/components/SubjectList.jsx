@@ -8,8 +8,8 @@ import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import { useEffect, useState } from 'react';
-import subjectService from '../services/subjects.service';
 import { Alert } from '@mui/material';
+import teacherService from '../services/teachers.service';
 
 function not(a, b) {
   return a.filter((value) => b.indexOf(value) === -1);
@@ -19,12 +19,10 @@ function intersection(a, b) {
   return a.filter((value) => b.indexOf(value) !== -1);
 }
 
-const SubjectList = () => {
+const SubjectList = (props) => {
   const [checked, setChecked] = useState([]);
   const [left, setLeft] = useState([]);
   const [right, setRight] = useState([]);
-
-  //const [ subject, setsubject ] = useState([]);
   const [errorMessage, setErrorMessage] = useState(undefined);
 
   const leftChecked = intersection(checked, left);
@@ -52,12 +50,17 @@ const SubjectList = () => {
     setRight(right.concat(leftChecked));
     setLeft(not(left, leftChecked));
     setChecked(not(checked, leftChecked));
+    
+    props.setSubjectChecked((prevState) => ({ ...prevState, checked}));
+    console.log(checked)
   };
 
   const handleCheckedLeft = () => {
+
     setLeft(left.concat(rightChecked));
     setRight(not(right, rightChecked));
     setChecked(not(checked, rightChecked));
+    props.setSubjectCheckedLeft((prevState) => ({ ...prevState, checked}));
   };
 
   const handleAllLeft = () => {
@@ -65,21 +68,36 @@ const SubjectList = () => {
     setRight([]);
   };
 
-  const getAllSubject = async () => {
+  const getSubjectsLeft = async () => {
     try {
-        const response = await subjectService.getAllSubjects()
-          setRight(response.data)
+        const response = await teacherService.getSubjectLeft(props.idTeacher)
+        console.log(response.data)
+        setLeft(response.data)
     } catch (error) {
-        setErrorMessage(error.response.data.error)
+        setErrorMessage(error.response.data.message)
+    }
+  }
+
+  const getSubjectsRigth = async () => {
+    try {
+        const response = await teacherService.getSubjectRigth(props.idTeacher);
+        console.log(response.data)
+        setRight(response.data)
+    } catch (error) {
+        setErrorMessage(error.response.data.message)
     }
   }
 
   useEffect(() => {
-    getAllSubject();
+    getSubjectsLeft();
   }, [])
 
+  useEffect(() => {
+    getSubjectsRigth();
+  }, [] )
+
   const customList = (items) => (
-    <Paper sx={{ width: 200, height: 230, overflow: 'auto' }}>
+    <Paper sx={{ width: 300, height: 330, overflow: 'auto' }}>
       <List dense component="div" role="list">
         {items.map((value) => {
           const labelId = `transfer-list-item-${value}-label`;
@@ -101,7 +119,7 @@ const SubjectList = () => {
                   }}
                 />
               </ListItemIcon>
-              <ListItemText id={labelId} primary={`List item ${value.name + 1}`} />
+              <ListItemText id={labelId} primary={`${value.grade } ${value.name}`} />
             </ListItem>
           );
         })}
@@ -116,7 +134,7 @@ const SubjectList = () => {
         <Grid container direction="column" alignItems="center">
           <Button
             sx={{ my: 0.5 }}
-            variant="outlined"
+            variant="contained"
             size="small"
             onClick={handleAllRight}
             disabled={left.length === 0}
@@ -126,7 +144,7 @@ const SubjectList = () => {
           </Button>
           <Button
             sx={{ my: 0.5 }}
-            variant="outlined"
+            variant="contained"
             size="small"
             onClick={handleCheckedRight}
             disabled={leftChecked.length === 0}
@@ -136,7 +154,7 @@ const SubjectList = () => {
           </Button>
           <Button
             sx={{ my: 0.5 }}
-            variant="outlined"
+            variant="contained"
             size="small"
             onClick={handleCheckedLeft}
             disabled={rightChecked.length === 0}
@@ -146,7 +164,7 @@ const SubjectList = () => {
           </Button>
           <Button
             sx={{ my: 0.5 }}
-            variant="outlined"
+            variant="contained"
             size="small"
             onClick={handleAllLeft}
             disabled={right.length === 0}

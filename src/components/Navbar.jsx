@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { amber, cyan, deepPurple, grey } from '@mui/material/colors';
 import { AuthContext } from '../context/auth.context';
 import { useContext } from 'react';
+import HomeIcon from '@mui/icons-material/Home';
 
 const Navbar = () => {
 
@@ -19,7 +20,7 @@ const Navbar = () => {
       <AppBar position="static" sx={ {bgcolor: cyan[700]}}>
         <Toolbar>
         <Link to='/'>
-            <Button color="inherit">Home</Button>
+            <Button ariant="outlined" startIcon={<HomeIcon/>} sx={{color: 'white'}}>Home</Button>
         </Link>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             

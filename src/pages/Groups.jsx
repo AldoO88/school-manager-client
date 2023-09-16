@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import DataTable from "../components/DataTable";
 import groupService from "../services/group.service";
 import TableNoRows from "../components/TableNoRows";
-import { Alert, Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Fab, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { Alert, Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Fab, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import BrowserUpdatedIcon from '@mui/icons-material/BrowserUpdated';
 import { GridDeleteIcon } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
@@ -17,46 +17,7 @@ const initAddGroupForm = {
   };
 
 
-const columns = [
-    { field: 'grade', headerName: 'Grade', width: 90 },
-    { field: 'group', headerName: 'Group', width: 90 },
-    { field: 'name', headerName: 'Description', width: 230 },
-    { field: 'students', headerName: 'Students', width: 230 },
-    { field: 'tutor', headerName: 'Tutor', width: 230 },
-    { field: 'update',
-        renderCell: (cellValues) => {
-            return(
-                <Button
-                className='buttonTable'
-                    variant="contained"
-                    color="primary"
-                    startIcon={<BrowserUpdatedIcon />}
-                >
-                    Update
-                </Button>
-            )
-        },
-        headerName: ' ', 
-        width: 120
-    },
-    { field: 'delete',
-        renderCell: (cellValues) => {
-            return(
-                <Button
-                className='buttonTable'
-                    variant="contained"
-                    color="error"
-                    startIcon={<GridDeleteIcon />}
-                >
-                    Delete
-                </Button>
-            )
-        },
-        headerName: ' ', 
-        width: 120
-    }
 
-  ];
 
 const Groups = () => {
 
@@ -65,7 +26,51 @@ const Groups = () => {
     const [ addGroupForm, setAddGroupForm ] = useState(initAddGroupForm)
     const [ errorMessage, setErrorMessage ] = useState(undefined);
     //const [ message, setMessage ] = useState(undefined);
-    //const [ idSubject, setIdSubject ] = useState(null)
+    const [ idGroup, setIdGroup ] = useState(null)
+    const [ openDialog, setOpenDialog ] = useState(false)
+
+    const columns = [
+        { field: 'grade', headerName: 'Grade', width: 90 },
+        { field: 'group', headerName: 'Group', width: 90 },
+        { field: 'description', headerName: 'Description', width: 230 },
+        { field: 'students', headerName: 'Students', width: 230 },
+        { field: 'tutor', headerName: 'Tutor', width: 230 },
+        { field: 'update',
+            renderCell: (cellValues) => {
+                return(
+                    <Button
+                    className='buttonTable'
+                        variant="contained"
+                        color="primary"
+                        startIcon={<BrowserUpdatedIcon />}
+                        onClick={() => getGroup(cellValues.id)}
+                    >
+                        Update
+                    </Button>
+                )
+            },
+            headerName: ' ', 
+            width: 120
+        },
+        { field: 'delete',
+            renderCell: (cellValues) => {
+                return(
+                    <Button
+                    className='buttonTable'
+                        variant="contained"
+                        color="error"
+                        startIcon={<GridDeleteIcon />}
+                        onClick={() => openDialogClick(cellValues.id)}
+                    >
+                        Delete
+                    </Button>
+                )
+            },
+            headerName: ' ', 
+            width: 120
+        }
+    
+      ];
 
     const getAllGroup = async () => {
         try {
@@ -100,18 +105,57 @@ const Groups = () => {
     event.preventDefault();
     try {
       
+        if(!idGroup){
             await groupService.createGroup(addGroupForm);
             setAddGroupForm(initAddGroupForm);
             getAllGroup();
             setOpen(false);
             //setMessage(response.data.message)
+        }else{
+            await groupService.updateGroup(idGroup, addGroupForm);
+            setAddGroupForm(initAddGroupForm);
+            getAllGroup();
+            setOpen(false);
+        }
+            
             
         
     } catch (error) {
         setErrorMessage(error.response.data.message);
     }
+    
 }
 
+const getGroup = async (idGroup) => {
+    try {
+        setOpen(true)
+        const response = await groupService.getOneGroup(idGroup)
+        setAddGroupForm(response.data);
+        setIdGroup(idGroup)
+    } catch (error) {
+        setErrorMessage(error.response.data.message);
+    }
+    
+}
+
+const openDialogClick = (studentId) => {
+    setOpenDialog(true);
+    setIdGroup(studentId);
+}
+
+const closeDialogClick = (studentId) => {
+    setOpenDialog(false);
+}
+
+const deleteGroup = async () => {
+    try {
+      await groupService.deleteGroup(idGroup)
+      getAllGroup();
+      closeDialogClick();
+    } catch (error) {
+      setErrorMessage(error.response.data.message)
+    }
+  }
     
     return(
         <div style={{ width: "100%", margin:20 }}>
@@ -227,6 +271,47 @@ const Groups = () => {
             </DialogActions>
           </Box>
         </Dialog>
+
+
+        <Dialog
+        open={openDialog}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {'Are you sure you want to eliminate the group?'}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+          <p>{`Se eliminara el grupo`}</p>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button 
+          variant="contained"
+                sx={{
+                  mt: 1,
+                  mb: 2,
+                  bgcolor: red[500],
+                  ":hover": { bgcolor: amber[200], color: grey[900] },
+                  color: "white",
+                }}
+          onClick={closeDialogClick}>Cancel</Button>
+          <Button
+          variant="contained"
+                sx={{
+                  mt: 1,
+                  mb: 2,
+                  bgcolor: deepPurple[500],
+                  ":hover": { bgcolor: amber[200], color: grey[900] },
+                  color: "white",
+                }}
+           onClick={deleteGroup} autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
         </div>
     )
 }
