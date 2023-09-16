@@ -14,6 +14,7 @@ import { AuthContext } from './context/auth.context';
 import Groups from './pages/Groups';
 import Students from './pages/Students';
 import Subjects from './pages/Subjects';
+import Schedule from './pages/Schedule';
 
 function App() {
   const { isLoggedIn } = useContext(AuthContext)
@@ -35,6 +36,7 @@ function App() {
         <Route path='/groups' element={<IsPrivate><Groups/></IsPrivate> } />
         <Route path='/students' element={<IsPrivate><Students/></IsPrivate> } />
         <Route path='/subjects' element={<IsPrivate><Subjects/></IsPrivate> } /> 
+        <Route path='/schedule' element={<IsPrivate><Schedule/></IsPrivate> } /> 
         <Route path='/signup' element={<IsAnonymous><Signup/></IsAnonymous>} />
         <Route path='/login' element={<IsAnonymous><Login/></IsAnonymous>} />
 

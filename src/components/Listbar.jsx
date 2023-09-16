@@ -12,7 +12,6 @@ import People from '@mui/icons-material/People';
 import Diversity2Icon from '@mui/icons-material/Diversity2';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import SchoolIcon from '@mui/icons-material/School';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { Avatar, ListItemAvatar } from '@mui/material';
 import { amber, deepPurple, pink } from '@mui/material/colors';
@@ -24,7 +23,7 @@ const data = [
   { icon: <Diversity2Icon />, label: 'Groups' },
   { icon: <AutoStoriesIcon />, label: 'Subjects' },
   { icon: <SchoolIcon />, label: 'Students' },
-  { icon: <AccountBoxIcon />, label: 'Users' },
+  { icon: <CalendarMonthIcon />, label: 'Schedule' },
 
 ];
 

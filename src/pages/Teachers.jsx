@@ -30,7 +30,7 @@ const Teachers = () =>{
     { field: "profile", headerName: "Profile", width: 100},
     { field: "specialty", headerName: "Specialty", width: 160},
     { field: "hours", headerName: "Hours", width: 80 },
-    { field: "subjects.name", headerName: "Subjects", width: 260},
+    { field: "subjects", headerName: "Subjects", width: 260},
     { field: "email", headerName: "Email", width: 260},
     { field: "status", headerName: "Status", width: 120},
     { field: 'add',
